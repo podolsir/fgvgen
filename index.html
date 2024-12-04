@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+    <div class="row">
+        <div class="col">
+            Параграф вашего ВНЖ:
+        </div>
+        <div class="form-check col">
+            <input class="form-check-input" type="radio" name="permitParagraph" id="permitParagraph24">
+            <label class="form-check-label" for="permitParagraph24">
+            24
+            </label>
+        </div>
+        <div class="form-check col">
+            <input class="form-check-input" type="radio" name="permitParagraph" id="permitParagraphOther">
+            <label class="form-check-label" for="permitParagraphOther">
+            другой
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            Гражданство 
+        </div>
+        <div class="form-check col">
+            <input class="form-check-input" type="radio" name="citizenship" id="citizenshipUkraine" />
+            <label class="form-check-label" for="citizenshipUkraine">
+            Украина
+            </label>
+        </div>
+        <div class="form-check col">
+            <input class="form-check-input" type="radio" name="citizenship" id="citizenshipOther" />
+            <label class="form-check-label" for="citizenshipOther">
+            другое
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1">
+            <input class="form-check-input" type="checkbox" id="haveRelatives" />  
+        </div>
+        <div class="col-11">
+            <label class="form-check-label" for="haveRelatives">
+                У меня есть супруг(а) или несовершеннолетние дети, которые являются гражданами Украины, получили временную защиту в Германии и живут вместе со мной
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1">
+            <input class="form-check-input" type="checkbox" id="haveResidence" />  
+        </div>
+        <div class="col-11">
+            <label class="form-check-label" for="haveResidence">
+                По состоянию на 24.02.2022 я постоянно проживал в Украине на основании бессрочного ВНЖ (ПМЖ)
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            Пол 
+        </div>
+        <div class="form-check col">
+            <input class="form-check-input" type="radio" name="gender" id="genderFemale" />
+            <label class="form-check-label" for="genderFemale">
+                женский
+            </label>
+        </div>
+        <div class="form-check col">
+            <input class="form-check-input" type="radio" name="gender" id="genderMale" />
+            <label class="form-check-label" for="genderMale">
+                мужской
+            </label>
+        </div>
+    </div>
+    <div class="row">
+            <label for="issueDate" class="form-label col">Дата выдачи ВНЖ</label>
+            <input type="text" class="form-control col" id="issueDate" placeholder="24.08.2022" />
+    </div>
+    <div class="row">
+        <label for="expiryDate" class="form-label col">Срок действия ВНЖ</label>
+        <input type="text" class="form-control col" id="expiryDate" placeholder="04.03.2024" />
+    </div>
+    <button type="button" onclick="createLetter()" class="btn btn-primary">Вперёд!</button>
+    <button type="button" onclick="clearLetter()" class="btn btn-secondary">Сбросить</button>
+    <div class="row">
+        <textarea class="form-control" id="letter" rows="12" readonly></textarea>
+    </div>
+    </div>
+
+    <script type="text/javascript">
+        function template(strings, ...keys) {
+        return (...values) => {
+            const dict = values[values.length - 1] || {};
+            const result = [strings[0]];
+            keys.forEach((key, i) => {
+            const value = Number.isInteger(key) ? values[key] : dict[key];
+            result.push(value, strings[i + 1]);
+            });
+            return result.join("");
+        };
+        }
+
+
+        const templateDouble = template`Sehr geehrte Damen und Herren,
+
+das Bundesministerium des Innern und für Heimat hat am 28.11.2024 eine Verordnung erlassen, die die weitere automatische Fortgeltung der Aufenthaltstitel nach § 24 AufenthG regelt. 
+
+Mein Aufenthaltstitel ist nach § 24 AufenthG ausgestellt, fällt unter diese Regelung und ist bis zum 04.03.2026 gültig. Dies ist folgendermaßen begründet:
+
+1. Mein Aufenthaltstitel wurde am ${"issueDate"} ausgestellt und hat ein aufgedrucktes Gültigkeitsdatum von ${"expiryDate"}. 
+2. Der Aufenthaltstitel war somit am 01.02.2024 gültig. Er fällt somit grundsätzlich unter die Ukraine-Aufenthaltserlaubnis-Fortgeltungsverordnung in der Fassung vom 28.11.2023 (BGBl. 2023 I 334, https://www.recht.bund.de/bgbl/1/2023/334/VO.html). Seine Gültigkeit wurde dadurch bis zum 04.03.2025 verlängert, ungeachtet des aufgedruckten Gültigkeitsdatums. Dadurch ist mein Aufenthaltstitel insbesondere auch als "am 01.02.2025 gültig" anzusehen.
+3. ${"citizenshipSentence"} Damit gehöre ich zu dem Personenkreis, für den eine weitere automatische Verlängerung des Gültigkeitsdauer des Aufenthaltstitels vorgesehen ist.
+4. Damit gilt mein Aufenthaltstitel bis zum Ablauf des 04.03.2026 fort, ohne Verlängerung im Einzelfall und ungeachtet des aufgedruckten Ablaufdatums.
+
+Mit freundlichen Grüßen`;
+
+const templateSingle = template`Sehr geehrte Damen und Herren,
+
+das Bundesministerium des Innern und für Heimat hat am 28.11.2024 eine Verordnung erlassen, die die automatische Fortgeltung der Aufenthaltstitel nach § 24 AufenthG regelt. 
+
+Mein Aufenthaltstitel ist nach § 24 AufenthG ausgestellt, fällt unter diese Regelung und ist bis zum 04.03.2026 gültig. Dies ist folgendermaßen begründet:
+
+1. Mein Aufenthaltstitel wurde am ${"issueDate"} ausgestellt und hat ein aufgedrucktes Gültigkeitsdatum von ${"expiryDate"}. 
+2. Der Aufenthaltstitel ist somit am 01.02.2025 gültig. Er somit grundsätzlich unter die Ukraine-Aufenthaltserlaubnis-Fortgeltungsverordnung in der Fassung vom 28.11.2023 (BGBl. 2023 I 334, https://www.recht.bund.de/bgbl/1/2023/334/VO.html). Seine Gültigkeit wurde dadurch bis zum 04.03.2025 verlängert, ungeachtet des aufgedruckten Gültigkeitsdatums.
+3. ${"citizenshipSentence"} Damit gehöre ich zu dem Personenkreis, für den eine weitere automatische Verlängerung des Gültigkeitsdauer des Aufenthaltstitels vorgesehen ist.
+4. Damit gilt mein Aufenthaltstitel bis zum Ablauf des 04.03.2026 fort, ohne Verlängerung im Einzelfall und ungeachtet des aufgedruckten Ablaufdatums.
+
+Mit freundlichen Grüßen`;
+
+        function createLetter() {
+
+            const E = (x) => document.getElementById(x);
+
+            var citizenshipSentence = "";
+            var eligible = false;
+
+            if (E("citizenshipUkraine").checked) {
+                eligible = true;
+                if (E("genderFemale").checked) {
+                    citizenshipSentence = "Ich bin ukrainische Staatsangehörige.";
+                } else {
+                    citizenshipSentence = "Ich bin ukrainischer Staatsangehöriger.";
+                }
+            } else if (E("citizenshipOther").checked) {
+                if (E("haveRelatives").checked) {
+                    eligible = true;
+                    citizenshipSentence = "Ich bin ein Familienangehöriger eines ukrainischen Staatsangehörigen, der in Deutschland eine Aufenthalterlaubnis nach § 24 AufenthG erhalten hat."
+                } else if (E("haveResidence").checked) {
+                    eligible = true;
+                    citizenshipSentence = "Ich habe mich am 24.02.2022 auf Grund eines unbefristeten ukrainischen Aufenthaltstitels in der Ukraine aufgehalten."
+                } 
+            }
+
+            const fgv1pivot = new Date(2024, 1, 1);
+            const fgv2pivot = new Date(2025, 1, 1);
+            
+            const strip = (s) => s.replace("/\D/g", "");
+
+            const issueDate = dateFns.parse(strip(document.getElementById("issueDate").value), "ddMMyyyy", new Date());
+            const expiryDate = dateFns.parse(strip(document.getElementById("expiryDate").value), "ddMMyyyy", new Date());
+
+            var letter = "ERROR";
+
+            const params = {
+                        issueDate: dateFns.format(issueDate, "dd.MM.yyyy"), 
+                        expiryDate: dateFns.format(expiryDate, "dd.MM.yyyy"),
+                        citizenshipSentence: citizenshipSentence,
+                    };
+
+            if (!eligible) {
+                letter = "!!! НЕТ АВТОПРОДЛЕНИЯ (Personenkreis)"
+            } else {
+                if (dateFns.isAfter(expiryDate, fgv2pivot) && dateFns.isBefore(issueDate, fgv1pivot)) {
+                    letter = templateSingle(params)
+                } else if (dateFns.isAfter(expiryDate, fgv1pivot) && dateFns.isBefore(issueDate, fgv1pivot)) {
+                    letter = templateDouble(params)
+                } else {
+                    letter = "!!! НЕТ АВТОПРОДЛЕНИЯ (Datum)"
+                }
+            }
+
+            document.getElementById("letter").innerHTML = letter;
+        }
+
+        function clearLetter() {
+            document.getElementById("letter").innerHTML = "";
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@3.6.0/cdn.min.js"></script>
+  </body>
+</html>

@@ -62,23 +62,6 @@
         </div>
     </div>
     <div class="row">
-        <div class="col">
-            Пол 
-        </div>
-        <div class="form-check col">
-            <input class="form-check-input" type="radio" name="gender" id="genderFemale" />
-            <label class="form-check-label" for="genderFemale">
-                женский
-            </label>
-        </div>
-        <div class="form-check col">
-            <input class="form-check-input" type="radio" name="gender" id="genderMale" />
-            <label class="form-check-label" for="genderMale">
-                мужской
-            </label>
-        </div>
-    </div>
-    <div class="row">
             <label for="issueDate" class="form-label col">Дата выдачи ВНЖ</label>
             <input type="text" class="form-control col" id="issueDate" placeholder="24.08.2022" />
     </div>
@@ -142,15 +125,11 @@ Mit freundlichen Grüßen`;
 
             if (E("citizenshipUkraine").checked) {
                 eligible = true;
-                if (E("genderFemale").checked) {
-                    citizenshipSentence = "Ich bin ukrainische Staatsangehörige.";
-                } else {
-                    citizenshipSentence = "Ich bin ukrainischer Staatsangehöriger.";
-                }
+                citizenshipSentence = "Ich besitze die ukrainische Staatsangehörigkeit.";
             } else if (E("citizenshipOther").checked) {
                 if (E("haveRelatives").checked) {
                     eligible = true;
-                    citizenshipSentence = "Ich bin ein Familienangehöriger eines ukrainischen Staatsangehörigen, der in Deutschland eine Aufenthalterlaubnis nach § 24 AufenthG erhalten hat."
+                    citizenshipSentence = "Ich gehöre der Familie eines ukrainischen Staatsangehörigen an, der in Deutschland eine Aufenthalterlaubnis nach § 24 AufenthG erhalten hat."
                 } else if (E("haveResidence").checked) {
                     eligible = true;
                     citizenshipSentence = "Ich habe mich am 24.02.2022 auf Grund eines unbefristeten ukrainischen Aufenthaltstitels in der Ukraine aufgehalten."

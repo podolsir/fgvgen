@@ -82,7 +82,7 @@
             Дата выдачи ВНЖ:
             <button class="btn btn-sm btn-light" data-bs-toggle="collapse" data-bs-target="#infoIssueDate"><i class="bi bi-question-circle"></i></button>
         </label>
-        <input type="text" class="form-control col mx-2" id="issueDate" placeholder="например, 24.08.2022" onchange="update()" onkeyup="updateDebounced()" />
+        <input type="text" class="form-control col mx-2" id="issueDate" placeholder="дд.мм.гггг" data-slots="дмг" onchange="update()" onkeyup="updateDebounced()" />
     </div>
     <div id="infoIssueDate" class="collapse">
         <div class="row d-flex flex-column align-items-top">
@@ -95,7 +95,7 @@
             Срок действия ВНЖ:
             <button class="btn btn-sm btn-light" data-bs-toggle="collapse" data-bs-target="#infoExpiryDate"><i class="bi bi-question-circle"></i></button>
         </label>
-        <input type="text" class="form-control col mx-2" id="expiryDate" placeholder="например, 04.03.2024" onchange="update()" onkeyup="updateDebounced()" />
+        <input type="text" class="form-control col mx-2" id="expiryDate" placeholder="дд.мм.гггг" data-slots="дмг" onchange="update()" onkeyup="updateDebounced()" />
     </div>
     <div id="infoExpiryDate" class="collapse">
         <div class="row d-flex flex-column align-items-top">
@@ -141,6 +141,38 @@
         const strip = (s) => s.replace(/\D/g, "");
 
         const E = (x) => document.getElementById(x);
+
+        // Code thankfully borrowed from 
+        // https://stackoverflow.com/a/55010378
+        document.addEventListener('DOMContentLoaded', () => {
+            for (const el of document.querySelectorAll("[placeholder][data-slots]")) {
+                const pattern = el.getAttribute("placeholder"),
+                    slots = new Set(el.dataset.slots || "_"),
+                    prev = (j => Array.from(pattern, (c,i) => slots.has(c)? j=i+1: j))(0),
+                    first = [...pattern].findIndex(c => slots.has(c)),
+                    accept = new RegExp(el.dataset.accept || "\\d", "g"),
+                    clean = input => {
+                        input = input.match(accept) || [];
+                        return Array.from(pattern, c =>
+                            input[0] === c || slots.has(c) ? input.shift() || c : c
+                        );
+                    },
+                    format = () => {
+                        const [i, j] = [el.selectionStart, el.selectionEnd].map(i => {
+                            i = clean(el.value.slice(0, i)).findIndex(c => slots.has(c));
+                            return i<0? prev.at(-1) : back ? prev[i-1] || first : i;
+                        });
+                        el.value = clean(el.value).join("");
+                        el.setSelectionRange(i, j);
+                        back = false;
+                    };
+                let back = false;
+                el.addEventListener("keydown", (e) => back = e.key === "Backspace");
+                el.addEventListener("input", format);
+                el.addEventListener("focus", format);
+                el.addEventListener("blur", () => el.value === pattern && (el.value=""));
+            }
+        });
 
         function showOtherCitizenOptions() {
             opts = new bootstrap.Collapse("#otherCitizenOptions", {toggle: false});
@@ -254,7 +286,7 @@ Mit freundlichen Grüßen`;
                 updateAlert({
                     type: 'success',
                     iconType: 'check-circle',
-                    message: ["Ваш ВНЖ попадает под автоматическое продление. ",
+                    message: ["Ваш ВНЖ попадает под автоматическое продление до 04.03.2026. ",
                     "Для ведомств и работодателей вы можете воспользоваться текстом письма, указанным ниже."].join(""),
                 });                        
                 createLetter(issueDate, expiryDate);

@@ -222,9 +222,6 @@ Mein Aufenthaltstitel ist nach § 24 AufenthG ausgestellt, fällt unter diese Re
 
 Mit freundlichen Grüßen`;
 
-        const fgv1pivot = new Date(2024, 1, 1);
-        const fgv2pivot = new Date(2025, 1, 1);
-
         function createLetter(issueDate, expiryDate) {
             var citizenshipSentence = "";
 
@@ -246,9 +243,9 @@ Mit freundlichen Grüßen`;
                         citizenshipSentence: citizenshipSentence,
                     };
 
-            if (dateFns.isAfter(expiryDate, fgv2pivot) && dateFns.isBefore(issueDate, fgv2pivot)) {
+            if (isEligibleByDateSingle(issueDate, expiryDate)) {
                 letter = templateSingle(params)
-            } else if (dateFns.isAfter(expiryDate, fgv1pivot) && dateFns.isBefore(issueDate, fgv1pivot)) {
+            } else if (isEligibleByDateDouble(issueDate, expiryDate)) {
                 letter = templateDouble(params)
             }
 
@@ -271,14 +268,23 @@ Mit freundlichen Grüßen`;
             ].join('')
         }
 
+        const fgv1pivot = new Date(2024, 1, 1);
+        const fgv2pivot = new Date(2025, 1, 1);
+
+        // Be careful: issue and expiry dates of German permits are inclusive.
+
+        function isEligibleByDateSingle(issueDate, expiryDate) {
+            return (dateFns.isAfter(dateFns.add(expiryDate, {days: 1}), fgv2pivot)
+                 && dateFns.isBefore(dateFns.sub(issueDate, {days: 1}), fgv2pivot))
+        }
+
+        function isEligibleByDateDouble(issueDate, expiryDate) {
+            return (dateFns.isAfter(dateFns.add(expiryDate, {days: 1}), fgv1pivot)
+                 && dateFns.isBefore(dateFns.sub(issueDate, {days: 1}), fgv1pivot))
+        }
+
         function isEligibleByDate(issueDate, expiryDate) {
-            return (
-                // Simple auto prolongation
-                (dateFns.isAfter(expiryDate, fgv2pivot) && dateFns.isBefore(issueDate, fgv2pivot))
-                || // OR
-                // Double auto prolongation
-                (dateFns.isAfter(expiryDate, fgv1pivot) && dateFns.isBefore(issueDate, fgv1pivot))
-            );
+            return isEligibleByDateSingle(issueDate, expiryDate) || isEligibleByDateDouble(issueDate, expiryDate);
         }
 
         function updateByDate(issueDate, expiryDate) {
@@ -322,7 +328,7 @@ Mit freundlichen Grüßen`;
                     type: 'success',
                     iconType: 'check-circle',
                     message: [`Ваш ВНЖ действителен до ${dateFns.format(expiryDate, "dd.MM.yyyy")}.`,
-                              `По состоянию на ${dateFns.format(new Date(), "dd.MM.yyyy")} это срок совпадает c максимально возможным сроком действия ВНЖ по § 24 AufenthG, или превышает его.`,
+                              `По состоянию на ${dateFns.format(new Date(), "dd.MM.yyyy")} этот срок совпадает c максимально возможным сроком действия ВНЖ по § 24 AufenthG, или превышает его.`,
                               "У вас нету необходимости в автопродлении."].join(" "),
                 });
                 clearLetter();

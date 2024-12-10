@@ -344,7 +344,7 @@ Mit freundlichen Grüßen`;
                     iconType: 'check-circle',
                     message: [`Ваш ВНЖ действителен до ${dateFns.format(expiryDate, "dd.MM.yyyy")}.`,
                               `По состоянию на ${dateFns.format(new Date(), "dd.MM.yyyy")} этот срок совпадает c максимально возможным сроком действия ВНЖ по § 24 AufenthG, или превышает его.`,
-                              "У вас нету необходимости в автопродлении."].join(" "),
+                              "У вас нет необходимости в автопродлении."].join(" "),
                 });
                 clearLetter();
                 return;

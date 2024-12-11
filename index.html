@@ -120,14 +120,15 @@
         </div>
     </div>
 
-    <div class="row d-none" id="docList" >
+    <div class="row letter-collapse collapse" id="docList">
         Приложите к письму следующие документы об автопродлении:
         <ul>
         </ul>
     </div>    
 
-    <div class="row position-relative">
-        <div class="d-flex mx-0 px-0 position-absolute top-0" style="right: 34px;" >
+    <div class="row letter-collapse collapse" id="letterContainer">
+        <div class="d-flex px-0">
+            Teкст письма:
             <button type="button" class="btn btn-primary btn-sm ms-auto disabled" id="copyLetterButton"><i class="bi bi-clipboard-fill"></i> Копировать</button>
         </div>
         <textarea class="form-control" id="letter" rows="12" readonly></textarea>
@@ -281,14 +282,16 @@ Mit freundlichen Grüßen`;
             E("copyLetterButton").classList.remove("disabled");
 
             E("docList").querySelector("ul").innerHTML = docList.map((x) => `<li class="ms-3">${x}</li>`).join("\n");
-            E("docList").classList.remove("d-none");
+            new bootstrap.Collapse("#docList", {toggle: false}).show();
+            new bootstrap.Collapse("#letterContainer", {toggle: false}).show();
         }
 
         function clearLetter() {
             document.getElementById("letter").innerHTML = "";
             E("copyLetterButton").classList.add("disabled");
             E("docList").querySelector("ul").innerHTML = "";
-            E("docList").classList.add("d-none");
+            new bootstrap.Collapse("#docList", {toggle: false}).hide();
+            new bootstrap.Collapse("#letterContainer", {toggle: false}).hide();
         }
 
         function updateAlert(alertInfo) {

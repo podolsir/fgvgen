@@ -120,13 +120,18 @@
         </div>
     </div>
 
+    <div class="row d-none" id="docList" >
+        Приложите к письму следующие документы об автопродлении:
+        <ul>
+        </ul>
+    </div>    
+
     <div class="row position-relative">
         <div class="d-flex mx-0 px-0 position-absolute top-0" style="right: 34px;" >
             <button type="button" class="btn btn-primary btn-sm ms-auto disabled" id="copyLetterButton"><i class="bi bi-clipboard-fill"></i> Копировать</button>
         </div>
         <textarea class="form-control" id="letter" rows="12" readonly></textarea>
     </div>
-
 
     <div class="row link-opacity-75 px-0 py-2">
         <a class="px-0" href="https://www.wolja-stuttgart.de/impressum">Impressum</a>
@@ -237,6 +242,12 @@ Mein Aufenthaltstitel ist nach § 24 AufenthG ausgestellt, fällt unter diese Re
 
 Mit freundlichen Grüßen`;
 
+        const DOCS = {
+            FGV1: '<a href="https://www.recht.bund.de/bgbl/1/2023/334/VO.html" target="_blank">Первый раунд (2024-2025): Изначальная редакция постановления об автопродлении </a>',
+            FGV2: '<a href="https://www.recht.bund.de/bgbl/1/2024/363/VO.html" target="_blank">Второй раунд (2025-2026): Постановление о продлении автопродления</a>',
+            FGVС: '<a href="https://www.gesetze-im-internet.de/ukraineaufenthfgv/UkraineAufenthFGV.pdf" target="_blank">Второй раунд (2025-2026): Обновленная редакция постановления об автопродлении (PDF)</a>',
+        }
+
         function createLetter(issueDate, expiryDate) {
             var citizenshipSentence = "";
 
@@ -260,17 +271,24 @@ Mit freundlichen Grüßen`;
 
             if (isEligibleByDateSingle(issueDate, expiryDate)) {
                 letter = templateSingle(params)
+                docList = [DOCS.FGVС]
             } else if (isEligibleByDateDouble(issueDate, expiryDate)) {
                 letter = templateDouble(params)
+                docList = [DOCS.FGV1, DOCS.FGV2, DOCS.FGVС]
             }
 
             document.getElementById("letter").innerHTML = letter;
             E("copyLetterButton").classList.remove("disabled");
+
+            E("docList").querySelector("ul").innerHTML = docList.map((x) => `<li class="ms-3">${x}</li>`).join("\n");
+            E("docList").classList.remove("d-none");
         }
 
         function clearLetter() {
             document.getElementById("letter").innerHTML = "";
             E("copyLetterButton").classList.add("disabled");
+            E("docList").querySelector("ul").innerHTML = "";
+            E("docList").classList.add("d-none");
         }
 
         function updateAlert(alertInfo) {

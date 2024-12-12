@@ -243,13 +243,25 @@ Mein Aufenthaltstitel ist nach § 24 AufenthG ausgestellt, fällt unter diese Re
 
 Mit freundlichen Grüßen`;
 
+const templateOtherParagraph = template`Sehr geehrte Damen und Herren,
+
+hiermit stelle ich einen Antrag auf die Verlängerung der Aufenthaltserlaubnis.
+
+Die Aufenthaltserlaubnis ist nach § <ПАРАГРАФ, НАПРИМЕР 33> AufenthG und nicht nach § 24 AufenthG ausgestellt. Damit fällt diese Aufenthaltserlaubnis nicht in den Geltungsbereich der Verordnung des Bundesinnenministeriums vom 28.11.2024 zur automatischen Verlängerung von Aufenthaltserlaubnissen für ukrainische Geflüchtete. Diese Verordnung gilt ausschließlich für Aufenthaltstitel nach § 24 AufenthG. Alle anderen Aufenthaltserlaubnisse sind regulär zu verlängern. 
+
+Ich bitte Sie daher, die Aufenthaltserlaubnis zu verlängern und einen neuen elektronischen Aufenthaltstitel auszustellen. Weiterhin bitte ich Sie, eine Fiktionsbescheinigung nach § 81 Abs. 4 AufenthG auszustellen, die den Eingang dieses Antrags bestätigt.
+Sollte eine persönliche Vorsprache erforderlich sein, bitte ich Sie, mir den entsprechenden Termin und Ort mitzuteilen. 
+
+Mit freundlichen Grüßen 
+`;
+
         const DOCS = {
             FGV1: '<a href="https://www.recht.bund.de/bgbl/1/2023/334/VO.html" target="_blank">Первый раунд (2024-2025): Изначальная редакция постановления об автопродлении </a>',
             FGV2: '<a href="https://www.recht.bund.de/bgbl/1/2024/363/VO.html" target="_blank">Второй раунд (2025-2026): Постановление о продлении автопродления</a>',
             FGVС: '<a href="https://www.gesetze-im-internet.de/ukraineaufenthfgv/UkraineAufenthFGV.pdf" target="_blank">Второй раунд (2025-2026): Обновленная редакция постановления об автопродлении (PDF)</a>',
         }
 
-        function createLetter(issueDate, expiryDate) {
+        function createLetter24(issueDate, expiryDate) {
             var citizenshipSentence = "";
 
             if (E("citizenshipUkraine").checked) {
@@ -283,6 +295,14 @@ Mit freundlichen Grüßen`;
 
             E("docList").querySelector("ul").innerHTML = docList.map((x) => `<li class="ms-3">${x}</li>`).join("\n");
             new bootstrap.Collapse("#docList", {toggle: false}).show();
+            new bootstrap.Collapse("#letterContainer", {toggle: false}).show();
+        }
+
+        function createLetterOther() {
+            document.getElementById("letter").innerHTML = templateOtherParagraph();
+            E("copyLetterButton").classList.remove("disabled");
+
+            new bootstrap.Collapse("#docList", {toggle: false}).hide();
             new bootstrap.Collapse("#letterContainer", {toggle: false}).show();
         }
 
@@ -331,7 +351,7 @@ Mit freundlichen Grüßen`;
                     message: ["Ваш ВНЖ попадает под автоматическое продление до 04.03.2026. ",
                     "Для ведомств и работодателей вы можете воспользоваться текстом письма, указанным ниже."].join(""),
                 });                        
-                createLetter(issueDate, expiryDate);
+                createLetter24(issueDate, expiryDate);
             } else {
                 updateAlert({
                     type: 'warning',
@@ -353,9 +373,10 @@ Mit freundlichen Grüßen`;
                     type: 'warning',
                     iconType: 'exclamation-triangle',
                     message: ["Ваш ВНЖ не попадает под автоматическое продление, так как выдан по другому параграфу. ",
-                              "Вам необходимо подать заявление о продлении ВНЖ в вашу миграционную службу до окончания срока его действия."].join(""),
+                              "Вам необходимо подать заявление о продлении ВНЖ в вашу миграционную службу до окончания срока его действия. ",
+                              "Вы можете воспользоваться образцом заявления, учказанным ниже, подставивь туда параграф по которому выдан ваш ВНЖ."].join(""),
                 });
-                clearLetter();
+                createLetterOther();
                 return;
             }
 

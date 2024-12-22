@@ -277,7 +277,7 @@ Mit freundlichen Grüßen
         }
 
         function createLetter24(issueDate, expiryDate) {
-            var citizenshipSentence = "";
+            let citizenshipSentence = "";
 
             if (E("citizenshipUkraine").checked) {
                 citizenshipSentence = "Ich besitze die ukrainische Staatsangehörigkeit.";
@@ -289,7 +289,8 @@ Mit freundlichen Grüßen
                 } 
             }
 
-            var letter = "ERROR";
+            let letter = "ERROR";
+            let docList = [];
 
             const params = {
                         issueDate: dateFns.format(issueDate, "dd.MM.yyyy"), 
@@ -318,7 +319,7 @@ Mit freundlichen Grüßen
 
         function createLetterOther() {
             document.getElementById("letter").innerHTML = templateOtherParagraph();
-            docList = [DOCS.PERMIT];
+            let docList = [DOCS.PERMIT];
 
             E("copyLetterButton").classList.remove("disabled");
             E("docList").querySelector("ul").innerHTML = docList.map((x) => `<li class="ms-3">${x}</li>`).join("\n");

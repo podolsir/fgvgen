@@ -92,7 +92,7 @@
             Дата выдачи ВНЖ:
             <button class="btn btn-sm btn-light" data-bs-toggle="collapse" data-bs-target="#infoIssueDate" tabindex="-1"><i class="bi bi-question-circle"></i></button>
         </label>
-        <input type="text" class="form-control col mx-2" id="issueDate" placeholder="дд.мм.гггг" data-slots="дмг" onchange="update()" onkeyup="updateDebounced()" />
+        <div class="datepicker3 row col ms-sm-0" id="issueDate" onchange="update()"></div>
     </div>
     <div id="infoIssueDate" class="collapse">
         <div class="row d-flex flex-column align-items-top">
@@ -105,7 +105,7 @@
             Срок действия ВНЖ:
             <button class="btn btn-sm btn-light" data-bs-toggle="collapse" data-bs-target="#infoExpiryDate" tabindex="-1"><i class="bi bi-question-circle"></i></button>
         </label>
-        <input type="text" class="form-control col mx-2" id="expiryDate" placeholder="дд.мм.гггг" data-slots="дмг" onchange="update()" onkeyup="updateDebounced()" />
+        <div class="datepicker3 row col ms-sm-0" id="expiryDate" onchange="update()"></div>
     </div>
     <div id="infoExpiryDate" class="collapse">
         <div class="row d-flex flex-column align-items-top">
@@ -152,47 +152,92 @@
             };
         }
         
-        function debounce(func, timeout = 300){
-            let timer;
-            return (...args) => {
-                clearTimeout(timer);
-                timer = setTimeout(() => { func.apply(this, args); }, timeout);
-            };
-        }
-
         const strip = (s) => s.replace(/\D/g, "");
 
         const E = (x) => document.getElementById(x);
 
-        // Code thankfully borrowed from 
-        // https://stackoverflow.com/a/55010378
+        function installDatePicker(hostElement) {
+            hostElement.innerHTML = `<select class="form-select col" data-datepicker3-component="day">
+                <option>День</option>
+                <option value="1">01</option>
+                <option value="2">02</option>
+                <option value="3">03</option>
+                <option value="4">04</option>
+                <option value="5">05</option>
+                <option value="6">06</option>
+                <option value="7">07</option>
+                <option value="8">08</option>
+                <option value="9">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+            </select>
+
+            <select class="form-select col" data-datepicker3-component="month">
+                <option>Месяц</option>
+                <option value="0">01</option>
+                <option value="1">02</option>
+                <option value="2">03</option>
+                <option value="3">04</option>
+                <option value="4">05</option>
+                <option value="5">06</option>
+                <option value="6">07</option>
+                <option value="7">08</option>
+                <option value="8">09</option>
+                <option value="9">10</option>
+                <option value="10">11</option>
+                <option value="11">12</option>
+            </select>
+
+            <select class="form-select col" data-datepicker3-component="year">
+                <option>Год</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+            </select>`;
+            hostElement.setAttribute("data-datepicker3-value", "");
+
+            const update = (event) => {
+                const d = new Date(hostElement.querySelector("[data-datepicker3-component=year]").value, 
+                                hostElement.querySelector("[data-datepicker3-component=month]").value,
+                                hostElement.querySelector("[data-datepicker3-component=day]").value);
+                const newValue = dateFns.isValid(d) ? dateFns.formatISO(d) : "";
+                if (newValue !== hostElement.getAttribute("data-datepicker3-value")) {
+                    hostElement.setAttribute("data-datepicker3-value", newValue);
+                    hostElement.dispatchEvent(new Event("change"));
+                }
+                event.stopPropagation();
+            };
+            hostElement.querySelector("[data-datepicker3-component=day]").addEventListener("change", update)
+            hostElement.querySelector("[data-datepicker3-component=month]").addEventListener("change", update)
+            hostElement.querySelector("[data-datepicker3-component=year]").addEventListener("change", update)
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            for (const el of document.querySelectorAll("[placeholder][data-slots]")) {
-                const pattern = el.getAttribute("placeholder"),
-                    slots = new Set(el.dataset.slots || "_"),
-                    prev = (j => Array.from(pattern, (c,i) => slots.has(c)? j=i+1: j))(0),
-                    first = [...pattern].findIndex(c => slots.has(c)),
-                    accept = new RegExp(el.dataset.accept || "\\d", "g"),
-                    clean = input => {
-                        input = input.match(accept) || [];
-                        return Array.from(pattern, c =>
-                            input[0] === c || slots.has(c) ? input.shift() || c : c
-                        );
-                    },
-                    format = () => {
-                        const [i, j] = [el.selectionStart, el.selectionEnd].map(i => {
-                            i = clean(el.value.slice(0, i)).findIndex(c => slots.has(c));
-                            return i<0? prev.at(-1) : back ? prev[i-1] || first : i;
-                        });
-                        el.value = clean(el.value).join("");
-                        el.setSelectionRange(i, j);
-                        back = false;
-                    };
-                let back = false;
-                el.addEventListener("keydown", (e) => back = e.key === "Backspace");
-                el.addEventListener("input", format);
-                el.addEventListener("focus", format);
-                el.addEventListener("blur", () => el.value === pattern && (el.value=""));
+            for (const el of document.querySelectorAll(".datepicker3")) {
+                installDatePicker(el);
             }
         });
 
@@ -387,8 +432,8 @@ Mit freundlichen Grüßen
         }
 
         function update() {
-            const issueDate = dateFns.parse(strip(E("issueDate").value), "ddMMyyyy", new Date());
-            const expiryDate = dateFns.parse(strip(E("expiryDate").value), "ddMMyyyy", new Date());
+            const issueDate = dateFns.parseISO(E("issueDate").getAttribute("data-datepicker3-value"));
+            const expiryDate = dateFns.parseISO(E("expiryDate").getAttribute("data-datepicker3-value"));
 
             if (E("permitParagraphOther").checked) {
                 updateAlert({
@@ -450,7 +495,6 @@ Mit freundlichen Grüßen
             clearLetter();
         }
 
-        const updateDebounced = debounce(() => update());
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/date-fns@3.6.0/cdn.min.js"></script>

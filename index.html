@@ -248,7 +248,7 @@
             
             if (_params.p == "24") {
                 E("permitParagraph24").checked = true;
-            } else if (_params.p != "") {
+            } else if (_params.p != undefined && _params.p != "") {
                 E("permitParagraphOther").checked = true;
             }
 
@@ -263,6 +263,10 @@
             showOtherCitizenOptions();
 
             const updateDatePicker = (elem, dateString) => {
+                if (dateString == undefined || dateString == null) {
+                    return;
+                }
+
                 d = dateFns.parse(dateString, "dd.MM.yyyy", new Date());
                 if (!dateFns.isValid(d)) {
                     return;

@@ -156,6 +156,8 @@
 
         const E = (x) => document.getElementById(x);
 
+        let initialized = false;
+
         function installDatePicker(hostElement) {
             hostElement.innerHTML = `<select class="form-select col" data-datepicker3-component="day">
                 <option>День</option>
@@ -239,6 +241,43 @@
             for (const el of document.querySelectorAll(".datepicker3")) {
                 installDatePicker(el);
             }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const _params = Object.fromEntries(new URL(window.location.href).hash.replace("#", "").split("/").map((x) => x.split('=', 2)));
+            
+            if (_params.p == "24") {
+                E("permitParagraph24").checked = true;
+            } else if (_params.p != "") {
+                E("permitParagraphOther").checked = true;
+            }
+
+            if (_params.c == "ua") {
+                E("citizenshipUkraine").checked = true;
+            } else if (_params.c == "other") {
+                E("citizenshipOther").checked = true;
+                E("haveRelatives").checked = _params.rel == "1";
+                E("haveResidence").checked = _params.res == "1";
+            }
+
+            showOtherCitizenOptions();
+
+            const updateDatePicker = (elem, dateString) => {
+                d = dateFns.parse(dateString, "dd.MM.yyyy", new Date());
+                if (!dateFns.isValid(d)) {
+                    return;
+                }
+                elem.querySelector("[data-datepicker3-component=day]").value = d.getDate();
+                elem.querySelector("[data-datepicker3-component=month]").value = d.getMonth();
+                elem.querySelector("[data-datepicker3-component=year]").value = d.getFullYear();
+                elem.setAttribute("data-datepicker3-value",  dateFns.formatISO(d));
+            }
+
+            updateDatePicker(E("issueDate"), _params(i));
+            updateDatePicker(E("expiryDate"), _params(e));
+
+            initialized = true;
+            update();
         });
 
         function showOtherCitizenOptions() {
@@ -432,67 +471,90 @@ Mit freundlichen Grüßen
         }
 
         function update() {
-            const issueDate = dateFns.parseISO(E("issueDate").getAttribute("data-datepicker3-value"));
-            const expiryDate = dateFns.parseISO(E("expiryDate").getAttribute("data-datepicker3-value"));
-
-            if (E("permitParagraphOther").checked) {
-                updateAlert({
-                    type: 'warning',
-                    iconType: 'exclamation-triangle',
-                    message: ["Ваш ВНЖ не попадает под автоматическое продление, так как выдан по другому параграфу. ",
-                              "Вам необходимо подать заявление о продлении ВНЖ в вашу миграционную службу до окончания срока его действия. ",
-                              "Вы можете воспользоваться образцом заявления, указанным ниже, подставив туда параграф по которому выдан ваш ВНЖ."].join(""),
-                });
-                createLetterOther();
+            if (!initialized) {
                 return;
             }
 
-            if (!isNaN(expiryDate) && dateFns.isAfter(expiryDate, new Date(2026, 2, 3))) {
-                updateAlert({
-                    type: 'success',
-                    iconType: 'check-circle',
-                    message: [`Ваш ВНЖ действителен до ${dateFns.format(expiryDate, "dd.MM.yyyy")}.`,
-                              `По состоянию на ${dateFns.format(new Date(), "dd.MM.yyyy")} этот срок совпадает c максимально возможным сроком действия ВНЖ по § 24 AufenthG, или превышает его.`,
-                              "У вас нет необходимости в автопродлении."].join(" "),
-                });
-                clearLetter();
-                return;
-            }
+            const _params = {}; 
+            const core = () => {
+                const issueDate = dateFns.parseISO(E("issueDate").getAttribute("data-datepicker3-value"));
+                const expiryDate = dateFns.parseISO(E("expiryDate").getAttribute("data-datepicker3-value"));
 
-            if (E("permitParagraph24").checked) {
-                if (E("citizenshipUkraine").checked) {
-                    if (!isNaN(issueDate) && !isNaN(expiryDate)) {
-                        updateByDate(issueDate, expiryDate);
-                        return;
-                    }
+                _params.i = isNaN(issueDate) ? "" : dateFns.format(issueDate, "dd.MM.yyyy");
+                _params.e = isNaN(expiryDate) ? "" : dateFns.format(expiryDate, "dd.MM.yyyy");
+
+                if (E("permitParagraphOther").checked) {
+                    updateAlert({
+                        type: 'warning',
+                        iconType: 'exclamation-triangle',
+                        message: ["Ваш ВНЖ не попадает под автоматическое продление, так как выдан по другому параграфу. ",
+                                    "Вам необходимо подать заявление о продлении ВНЖ в вашу миграционную службу до окончания срока его действия. ",
+                                    "Вы можете воспользоваться образцом заявления, указанным ниже, подставив туда параграф по которому выдан ваш ВНЖ."].join(""),
+                    });
+                    _params.p = 'other';
+                    createLetterOther();
+                    return;
                 }
 
-                if (E("citizenshipOther").checked) {
-                    if (E("haveRelatives").checked || E("haveResidence").checked) {
+                if (!isNaN(expiryDate) && dateFns.isAfter(expiryDate, new Date(2026, 2, 3))) {
+                    updateAlert({
+                        type: 'success',
+                        iconType: 'check-circle',
+                        message: [`Ваш ВНЖ действителен до ${dateFns.format(expiryDate, "dd.MM.yyyy")}.`,
+                                    `По состоянию на ${dateFns.format(new Date(), "dd.MM.yyyy")} этот срок совпадает c максимально возможным сроком действия ВНЖ по § 24 AufenthG, или превышает его.`,
+                                    "У вас нет необходимости в автопродлении."].join(" "),
+                    });
+                    clearLetter();
+                    return;
+                }
+
+                if (E("permitParagraph24").checked) {
+                    _params.p = '24';
+                    if (E("citizenshipUkraine").checked) {
+                        _params.c = 'ua';
                         if (!isNaN(issueDate) && !isNaN(expiryDate)) {
                             updateByDate(issueDate, expiryDate);
                             return;
                         }
-                    } else {
-                        updateAlert({
-                            type: 'danger',
-                            iconType: 'exclamation-triangle',
-                            message: ["Ваш ВНЖ не попадает под автоматическое продление, так как вы не входите в список категорий граждан третьих стран, претендующих на временную защиту. ",
-                                      "<strong>Ваше правo пребывания в Германии заканчивается 04.03.2025.</strong>",
-                                     ].join(""),
-                        });
-                        clearLetter();
-                        return;
+                    }
+
+                    if (E("citizenshipOther").checked) {
+                        _params.c = 'other';
+                        _params.rel = E("haveRelatives").checked ? "1" : "";
+                        _params.res = E("haveResidence").checked ? "1" : "";
+                        if (E("haveRelatives").checked || E("haveResidence").checked) {
+                            if (!isNaN(issueDate) && !isNaN(expiryDate)) {
+                                updateByDate(issueDate, expiryDate);
+                                return;
+                            }
+                        } else {
+                            updateAlert({
+                                type: 'danger',
+                                iconType: 'exclamation-triangle',
+                                message: ["Ваш ВНЖ не попадает под автоматическое продление, так как вы не входите в список категорий граждан третьих стран, претендующих на временную защиту. ",
+                                            "<strong>Ваше правo пребывания в Германии заканчивается 04.03.2025.</strong>",
+                                            ].join(""),
+                            });
+                            clearLetter();
+                            return;
+                        }
                     }
                 }
-            }
 
-            updateAlert({
-                    type: 'info',
-                    iconType: 'question-circle',
-                    message: ["Введено недостаточно информации. ", ].join(""),
-            });
-            clearLetter();
+                updateAlert({
+                        type: 'info',
+                        iconType: 'question-circle',
+                        message: ["Введено недостаточно информации. ", ].join(""),
+                });
+                clearLetter();
+            }
+            core();
+
+            const url = new URL(window.location.href);
+            const keys = Object.keys(_params).sort();
+            url.hash = keys.map((x) => `${x}=${_params[x]}`).join("/");
+            history.replaceState(null, "", url);
+
         }
 
     </script>

@@ -11,50 +11,59 @@
     <div class="row" style="height: 60px">
         <div class="d-flex flex-row h-100">
             <img src="logo-wolja.png" class="object-fit-contain h-100" />
-            <img src="logo-uahelp.png" class="object-fit-contain h-100 ms-auto" />
+            <img src="logo-uahelp.png" class="object-fit-contain h-100 ms-4" />
+            <div class="dropdown ms-auto p-3">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-globe"></i>
+                </button>
+                <ul class="dropdown-menu" id="langList">
+                    <li><button class="dropdown-item active" type="button" onclick="switchLanguage('ru')" data-value="ru">Русский</button></li>
+                    <li><button class="dropdown-item" type="button" onclick="switchLanguage('de')" data-value="de">Deutsch</button></li>
+                </ul>
+            </div>
         </div>
     </div>
-    <h1 class="fs-3">Информация об автоматическом продлении ВНЖ по §&nbsp;24</h1>
+    <h1 class="fs-3" data-i18n-key="app-heading">Информация об автоматическом продлении ВНЖ по §&nbsp;24</h1>
     <div class="alert alert-info">
-        <i class="bi bi-info-square-fill"></i> Информация на этой странице собрана волонтёрами. Мы не гарантируем её верность. Всю ответственность за все действия, связанные с вашими документами, несёте вы. 
+        <i class="bi bi-info-square-fill"></i> <span data-i18n-key="disclaimer">Информация на этой странице собрана волонтёрами. Мы не гарантируем её верность. Всю ответственность за все действия, связанные с вашими документами, несёте вы.</span> 
     </div>
     <div class="row py-2">
         <div class="col-4">
-            Параграф вашего ВНЖ:
+            <span data-i18n-key="permit.paragraphHeading">Параграф вашего ВНЖ:</span>
             <button class="btn btn-sm btn-light" data-bs-toggle="collapse" data-bs-target="#infoParagraph" tabindex="-1"><i class="bi bi-question-circle"></i></button>
         </div>
         <div class="col">
             <div class="row">
                 <div class="btn-group col" role="group">
                     <input type="radio" class="btn-check" name="permitParagraph" id="permitParagraph24" autocomplete="off" onchange="update()" />                
-                    <label class="btn btn-outline-primary" for="permitParagraph24">§ 24</label>
+                    <label class="btn btn-outline-primary" for="permitParagraph24" data-i18n-key="permit.paragraph24">§ 24</label>
                 </div>
                 <div class="btn-group col" role="group">
                     <input type="radio" class="btn-check" name="permitParagraph" id="permitParagraphOther" autocomplete="off" onchange="update()" />                
-                    <label class="btn btn-outline-primary" for="permitParagraphOther">другой</label>
+                    <label class="btn btn-outline-primary" for="permitParagraphOther" data-i18n-key="permit.paragraphOther">другой</label>
                 </div>
             </div>
         </div>
     </div>
     <div id="infoParagraph" class="collapse">
         <div class="row d-flex flex-column align-items-top">
-            <small>Параграф указан в виде нескольких цифр в поле Anmerkungen.</small>
+            <small data-i18n-key="permit.paragraphWhere">Параграф указан в виде нескольких цифр в поле Anmerkungen.</small>
             <img src="eAT-paragraph.jpg" class="mt-2" style="max-width: 500px";/>
         </div>
     </div>
     <div class="row py-2">
-        <div class="col-4">
+        <div class="col-4" data-i18n-key="citizenship.heading">
             Ваше гражданство 
         </div>
         <div class="col">
             <div class="row">
                 <div class="btn-group col" role="group">
                     <input type="radio" class="btn-check" name="citizenship" id="citizenshipUkraine" autocomplete="off" onchange="showOtherCitizenOptions(); update()"/>                
-                    <label class="btn btn-outline-primary" for="citizenshipUkraine">Украина</label>
+                    <label class="btn btn-outline-primary" for="citizenshipUkraine" data-i18n-key="citizenship.ukraine">Украина</label>
                 </div>
                 <div class="btn-group col" role="group">
                     <input type="radio" class="btn-check" name="citizenship" id="citizenshipOther" autocomplete="off" onchange="showOtherCitizenOptions(); update()" />                
-                    <label class="btn btn-outline-primary" for="citizenshipOther">другое</label>
+                    <label class="btn btn-outline-primary" for="citizenshipOther" data-i18n-key="citizenship.other">другое</label>
                 </div>
             </div>
         </div>
@@ -62,7 +71,7 @@
     <div class="collapse" id="otherCitizenOptions">
         <div class="row">
             <div class="col lh-sm">
-                <small>У граждан других стран для автопродления должны выполняться дополнительные условия:</small>
+                <small data-i18n-key="citizenship.otherOptionsHeading">У граждан других стран для автопродления должны выполняться дополнительные условия:</small>
             </div>
         </div>
         <div class="row py-2">
@@ -70,7 +79,7 @@
                 <input class="form-check-input  border-black" type="checkbox" id="haveRelatives" onchange="update()" />  
             </div>
             <div class="col-11">
-                <label class="form-check-label" for="haveRelatives">
+                <label class="form-check-label" for="haveRelatives" data-i18n-key="citizenship.otherOptionsRelatives">
                     У меня есть супруг(а) или несовершеннолетние дети, которые являются гражданами Украины, получили временную защиту в Германии и живут вместе со мной
                 </label>
             </div>
@@ -80,7 +89,7 @@
                 <input class="form-check-input border-black" type="checkbox" id="haveResidence" onchange="update()" />  
             </div>
             <div class="col-11">
-                <label class="form-check-label" for="haveResidence">
+                <label class="form-check-label" for="haveResidence" data-i18n-key="citizenship.otherOptionsResidence">
                     По состоянию на 24.02.2022 я постоянно проживал(а) в Украине на основании бессрочного ВНЖ (ПМЖ)
                 </label>
             </div>
@@ -89,27 +98,27 @@
 
     <div class="row py-2">
         <label for="issueDate" class="form-label col-sm-4">
-            Дата выдачи ВНЖ:
+            <span data-i18n-key="permit.issueDate">Дата выдачи ВНЖ:</span>
             <button class="btn btn-sm btn-light" data-bs-toggle="collapse" data-bs-target="#infoIssueDate" tabindex="-1"><i class="bi bi-question-circle"></i></button>
         </label>
         <div class="datepicker3 row col ms-sm-0" id="issueDate" onchange="update()"></div>
     </div>
     <div id="infoIssueDate" class="collapse">
         <div class="row d-flex flex-column align-items-top">
-            <small>Дата выдачи указана на обратной стороне карты в поле <strong>Ausstellungsdatum</strong>.</small>
+            <small data-i18n-key="permit.issueDateWhere">Дата выдачи указана на обратной стороне карты в поле <strong>Ausstellungsdatum</strong>.</small>
             <img src="eAT-issueDate.jpg" class="mt-2" style="max-width: 500px";/>
         </div>
     </div>
     <div class="row py-2">
         <label for="expiryDate" class="form-label col-sm-4">
-            Срок действия ВНЖ:
+            <span data-i18n-key="permit.expiryDate">Срок действия ВНЖ:</span>
             <button class="btn btn-sm btn-light" data-bs-toggle="collapse" data-bs-target="#infoExpiryDate" tabindex="-1"><i class="bi bi-question-circle"></i></button>
         </label>
         <div class="datepicker3 row col ms-sm-0" id="expiryDate" onchange="update()"></div>
     </div>
     <div id="infoExpiryDate" class="collapse">
         <div class="row d-flex flex-column align-items-top">
-            <small>Дата выдачи указана на лицевой стороне карты в поле <strong>Karte gültig bis</strong>.</small>
+            <small data-i18n-key="permit.expiryDateWhere">Срок действия указан на лицевой стороне карты в поле <strong>Karte gültig bis</strong>.</small>
             <img src="eAT-expiryDate.jpg" class="mt-2" style="max-width: 500px";/>
         </div>
     </div>
@@ -121,16 +130,16 @@
     </div>
 
     <div class="row letter-collapse collapse" id="docList">
-        <p class="px-0">Приложите к письму следующие документы:</p>
+        <p class="px-0" data-i18n-key="letter.attachmentHeading">Приложите к письму следующие документы:</p>
         <ul>
         </ul>
-        <p class="px-0"><img src="uahelp-logo-small.svg" style="height: 2ex;" /> <a class="px-0" href="https://uahelp.wiki/stuttgart/post/mail" target="_blank">UAhelp Wiki: Как правильно оформить и отправить бумажное письмо</a></p>
+        <p class="px-0"><img src="uahelp-logo-small.svg" style="height: 2ex;" /> <a class="px-0" href="https://uahelp.wiki/stuttgart/post/mail" target="_blank" data-i18n-key="letter.mailInfo">UAhelp Wiki: Как правильно оформить и отправить бумажное письмо</a></p>
     </div>    
 
     <div class="row letter-collapse collapse" id="letterContainer">
         <div class="d-flex px-0">
-            Teкст письма:
-            <button type="button" class="btn btn-primary btn-sm ms-auto disabled" id="copyLetterButton"><i class="bi bi-clipboard-fill"></i> Копировать</button>
+            <span data-i18n-key="letter.heading">Teкст письма:</span>
+            <button type="button" class="btn btn-primary btn-sm ms-auto disabled" id="copyLetterButton"><i class="bi bi-clipboard-fill"></i> <span data-i18n-key="letter.copyButton">Копировать</span></button>
         </div>
         <textarea class="form-control" id="letter" rows="12" readonly></textarea>
     </div>
@@ -160,7 +169,7 @@
 
         function installDatePicker(hostElement) {
             hostElement.innerHTML = `<select class="form-select col" data-datepicker3-component="day">
-                <option>День</option>
+                <option data-i18n-key="datepicker3.day">День</option>
                 <option value="1">01</option>
                 <option value="2">02</option>
                 <option value="3">03</option>
@@ -194,7 +203,7 @@
             </select>
 
             <select class="form-select col" data-datepicker3-component="month">
-                <option>Месяц</option>
+                <option data-i18n-key="datepicker3.month">Месяц</option>
                 <option value="0">01</option>
                 <option value="1">02</option>
                 <option value="2">03</option>
@@ -210,7 +219,7 @@
             </select>
 
             <select class="form-select col" data-datepicker3-component="year">
-                <option>Год</option>
+                <option data-i18n-key="datepicker3.year">Год</option>
                 <option value="2022">2022</option>
                 <option value="2023">2023</option>
                 <option value="2024">2024</option>
@@ -242,6 +251,184 @@
                 installDatePicker(el);
             }
         });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            i18next.init({
+                lng: 'ru',
+                debug: false,
+                resources: {
+                    ru: {
+                        translation: {
+                            "app-heading": "Информация об автоматическом продлении ВНЖ по §&nbsp;24",
+                            "disclaimer": "Информация на этой странице собрана волонтёрами. Мы не гарантируем её верность. Всю ответственность за все действия, связанные с вашими документами, несёте вы.",
+
+                            permit: {
+                                paragraphHeading: "Параграф вашего ВНЖ:",
+                                paragraph24: "§ 24",
+                                paragraphOther: "другой",
+                                paragraphWhere: "Параграф указан в виде нескольких цифр в поле <strong>Anmerkungen</strong>.",
+                                issueDate: "Дата выдачи ВНЖ:",
+                                issueDateWhere: "Дата выдачи указана на обратной стороне карты в поле <strong>Ausstellungsdatum</strong>.",
+                                expiryDate: "Срок действия ВНЖ:",
+                                expiryDateWhere: "Срок действия указан на лицевой стороне карты в поле <strong>Karte gültig bis</strong>.",
+                            },
+
+                            citizenship: {
+                                heading: "Ваше гражданство:",
+                                ukraine: "Украина",
+                                other:   "другое",
+                                otherOptionsHeading: "У граждан других стран для автопродления должны выполняться дополнительные условия:",
+                                otherOptionsRelatives: "У меня есть супруг(а) или несовершеннолетние дети, которые являются гражданами Украины, получили временную защиту в Германии и живут вместе со мной",
+                                otherOptionsResidence: "По состоянию на 24.02.2022 я постоянно проживал(а) в Украине на основании бессрочного ВНЖ (ПМЖ)",
+                            },
+
+                            result: {
+                                insufficientData: "Введено недостаточно информации.",
+                                otherCitizenExpiring: ("Ваш ВНЖ не попадает под автоматическое продление, так как вы не входите в список категорий граждан третьих стран, претендующих на временную защиту. " +
+                                                      "<strong>Ваше правo пребывания в Германии заканчивается 04.03.2025.</strong>"),
+                                magicExtension: "Ваш ВНЖ попадает под автоматическое продление до 04.03.2026. " +
+                                            "Для ведомств и работодателей вы можете воспользоваться текстом письма, указанным ниже.",
+                                notEligibleParagraph: "Ваш ВНЖ не попадает под автоматическое продление, так как выдан по другому параграфу. " +
+                                    "Вам необходимо подать заявление о продлении ВНЖ в вашу миграционную службу до окончания срока его действия. " +
+                                    "Вы можете воспользоваться образцом заявления, указанным ниже, подставив туда параграф по которому выдан ваш ВНЖ.",
+                                notEligibleByDate: "Ваш ВНЖ не попадает под автоматическое продление, так как не действителен ни по состоянию на 01.02.2024, ни по состоянию на 01.02.2025. " +
+                                                   '<strong>Срок его действия истечёт {{expiryDate)}. ' +
+                                                   "Вам необходимо вовремя подать заявление о продлении ВНЖ в вашу миграционную службу. " +
+                                                   "Вы можете воспользоваться образцом заявления, указанным нижe.",
+                                sufficientValidity: ("Ваш ВНЖ действителен до {{expiryDate}}. " +
+                                    "По состоянию на {{today}} этот срок совпадает c максимально возможным сроком действия ВНЖ по § 24 AufenthG, или превышает его." +
+                                    "У вас нет необходимости в автопродлении.") 
+                            },
+
+                            letter: {
+                                heading: "Текст письма:",
+                                attachmentHeading: "Приложите к письму следующие документы:",
+                                mailInfo: "UAhelp Wiki: Как правильно оформить и отправить бумажное письмо",
+                                copyButton: "Копировать",
+
+                                templateOtherParagraph: template`Sehr geehrte Damen und Herren,
+
+hiermit beantrage ich die Verlängerung meiner Aufenthaltserlaubnis (Kopie liegt bei).
+
+Die Aufenthaltserlaubnis ist nach § <ПАРАГРАФ, НАПРИМЕР 33> AufenthG und nicht nach § 24 AufenthG ausgestellt. Damit fällt diese Aufenthaltserlaubnis nicht in den Geltungsbereich der Verordnung des Bundesinnenministeriums vom 28.11.2024 zur automatischen Verlängerung von Aufenthaltserlaubnissen für ukrainische Geflüchtete. Diese Verordnung gilt ausschließlich für Aufenthaltstitel nach § 24 AufenthG. Alle anderen Aufenthaltserlaubnisse sind regulär zu verlängern. 
+
+Ich bitte Sie daher, die Aufenthaltserlaubnis zu verlängern und einen neuen elektronischen Aufenthaltstitel auszustellen. Weiterhin bitte ich Sie, eine Fiktionsbescheinigung nach § 81 Abs. 4 AufenthG auszustellen, die den Eingang dieses Antrags bestätigt.
+Sollte eine persönliche Vorsprache erforderlich sein, bitte ich Sie, mir den entsprechenden Termin und Ort mitzuteilen. 
+
+Mit freundlichen Grüßen 
+`
+                            },
+
+                            attachment: {
+                                fgv1: "Первый раунд (2024-2025): Изначальная редакция постановления об автопродлении",
+                                fgv2: "Второй раунд (2025-2026): Постановление о продлении автопродления",
+                                fgvConsolidated: "Второй раунд (2025-2026): Обновленная редакция постановления об автопродлении (PDF)",
+                                permit: "Копию вашего ВНЖ",
+                            },
+                            
+                            datepicker3: {
+                                day: "День",
+                                month: "Месяц",
+                                year: "Год",
+                            },
+
+                        }
+                    },
+                    de: {
+                        translation: {
+                            "app-heading": "Informationen zur automatischen Verlängerung von Aufenthaltstiteln nach §&nbsp;24 AufenthG",
+                            "disclaimer": "Diese Informationen wurden von ehrenamtlichen Helfern nach bestem Wissen und Gewissen zusammengetragen. Alle Angaben ohne Gewähr.",
+                            permit: {
+                                paragraphHeading: "eAT-Grundlage",
+                                paragraph24: "§ 24",
+                                paragraphOther: "andere",
+                                paragraphWhere: "Die Grundlage (Paragraphnummer im AufenthG) ist als Zahl oder Text im Feld <strong>\"Anmerkungen\"</strong> angegeben.",
+                                issueDate: "ausgestellt am",
+                                issueDateWhere: "Das Ausstellungsdatum ist auf der Rückseite der Karte im Feld \"<strong>Ausstellungsdatum</strong>\" angegeben.",
+                                expiryDate: "gültig bis:",
+                                expiryDateWhere: "Der letzte Tag der Gültigkeit des Aufenthaltstitels ist auf der Vorderseite im Feld <strong>\"Karte gültig bis\"</strong> angegeben.",
+                            },
+                            citizenship: {
+                                heading: "Staats&shy;angehörigkeit:",
+                                ukraine: "Ukraine",
+                                other:   "andere",
+                                otherOptionsHeading: "Für Staatsangehörige anderer Drittstaaten als der Ukraine müssen weitere Bedingungen erfüllt sein:",
+                                otherOptionsRelatives: "Mein(e) Ehepartner(in) oder meine minderjährigen Kinder sind ukrainische Staatsangehörige, erhielten vorübergehenden Schutz in Deutschland und leben mit mir zusammen",
+                                otherOptionsResidence: "Am 24.02.2022 habe ich mich auf Grund eines unbefristeten ukrainischen Aufenthaltstitels dauerhaft in der Ukraine aufgehalten",
+                            },
+                            result: {
+                                insufficientData: "Es wurden noch nicht genug Daten für eine Bewertung eingegeben.",
+                                otherCitizenExpiring: "Ihr Aufenthaltstitel ist von der automatischen Verlängerung nicht erfasst. Sie gehören keiner Kategorie der Drittstaatsangehörigen an, für die eine automatische Verlängerung vorgesehen ist. <strong>Ihr Aufenthaltsrecht in Deutschland auf Grund dieses Aufenthaltstitels endet am 04.03.2025.</strong>",
+                                magicExtension: "Ihr Aufenthaltstitel gilt automatisch bis zum 04.03.2026 fort. " +
+                                            "Für Behörden und Arbeitgeber können sie den folgenden Musterbrief verwenden, der die Grundlage der Fortgeltung erklärt.",
+                                notEligibleParagraph: "Ihr Aufenthaltstitel ist von der automatischen Fortgeltung nicht erfasst, da er nicht nach §&nbsp;24 AufenthG ausgestellt wurde. " +
+                                    "Sie müssen rechtzeitig vor Ablauf einen Antrag auf Verlängerung bei der zuständigen Ausländerbehörde stelle. " +
+                                    "Sie können den unten angegebenen Musterbrief verwenden. Ersetzen sie den Platzhalter durch die Angabe des Paragraphen Ihres Aufenthaltitels.",
+                                notEligibleByDate: "Ihr Aufenthaltstitel ist von der automatischen Verlängerung nicht erfasst, da er weder am 01.02.2024 noch am 01.02.2025 gilt. " +
+                                                   '<strong>Seine Gültigkeit läuft am {{expiryDate}} ab.</strong> ' +
+                                                   "Sie müssen rechtzeitig vor Ablauf einen Antrag auf Verlängerung stellen. " +
+                                                   "Sie können dafür den unten angezeigten Musterantrag verwenden.",
+
+                                sufficientValidity: ("Ihr Aufenthaltstitel ist bis {{expiryDate}} gültig. " +
+                                    "Mit Stand zum {{today}} ist dies die maximale Gültigkeitsdauer eines Aufenthaltstitels nach § 24 AufenthG. Ihr Aufenthaltstitel benötigt keine Sonderregelungen.")
+                            },
+
+                            letter: {
+                                heading: "Musterbrief:",
+                                attachmentHeading: "Legen Sie Ihrem Brief folgende Dokumente bei:",
+                                copyButton: "Kopieren",
+                                mailInfo: "UAhelp Wiki: Anleitung zum Versenden von Briefen (russisch)",
+
+                                templateOtherParagraph: template`Sehr geehrte Damen und Herren,
+
+hiermit beantrage ich die Verlängerung meiner Aufenthaltserlaubnis (Kopie liegt bei).
+
+Die Aufenthaltserlaubnis ist nach § <PARAGRAPH DES AT, z.B. 33> AufenthG und nicht nach § 24 AufenthG ausgestellt. Damit fällt diese Aufenthaltserlaubnis nicht in den Geltungsbereich der Verordnung des Bundesinnenministeriums vom 28.11.2024 zur automatischen Verlängerung von Aufenthaltserlaubnissen für ukrainische Geflüchtete. Diese Verordnung gilt ausschließlich für Aufenthaltstitel nach § 24 AufenthG. Alle anderen Aufenthaltserlaubnisse sind regulär zu verlängern. 
+
+Ich bitte Sie daher, die Aufenthaltserlaubnis zu verlängern und einen neuen elektronischen Aufenthaltstitel auszustellen. Weiterhin bitte ich Sie, eine Fiktionsbescheinigung nach § 81 Abs. 4 AufenthG auszustellen, die den Eingang dieses Antrags bestätigt.
+Sollte eine persönliche Vorsprache erforderlich sein, bitte ich Sie, mir den entsprechenden Termin und Ort mitzuteilen. 
+
+Mit freundlichen Grüßen 
+`
+                            },
+
+                            attachment: {
+                                fgv1: "Erste Runde (2024-2025): Erste Fassung der Ukraine-Aufenthaltstitel-Fortgeltungsverordnung",
+                                fgv2: "Zweite Runde (2025-2026): 1. Änderungsverordnung zur Ukraine-Aufenthaltstitel-Fortgeltungsverordnung",
+                                fgvConsolidated: "Zweite Runde (2025-2026): Neue Fassung der Ukraine-Aufenthaltstitel-Fortgeltungsverordnung",
+                                permit: "Kopie Ihres Aufenthaltstitels",
+                            },
+
+                            datepicker3: {
+                                day: "Tag",
+                                month: "Monat",
+                                year: "Jahr",
+                            },
+                        }
+                    }
+                }
+            }).then((t) => {
+                updateLanguage();
+            })
+        });
+
+        function updateLanguage() {
+            for (const el of document.querySelectorAll("[data-i18n-key]")) {
+                el.innerHTML = i18next.t(el.getAttribute("data-i18n-key"));
+            }
+        }
+
+        function switchLanguage(lang) {
+            i18next.changeLanguage(lang);
+            for (const b of E("langList").querySelectorAll("li button")) {
+                b.classList.remove("active");
+                if (b.getAttribute("data-value") == lang) {
+                    b.classList.add("active");
+                }
+            }
+            updateLanguage();
+            update();
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             const _params = Object.fromEntries(new URL(window.location.href).hash.replace("#", "").split("/").map((x) => x.split('=', 2)));
@@ -332,18 +519,6 @@ Mein Aufenthaltstitel ist nach § 24 AufenthG ausgestellt, fällt unter diese Re
 
 Mit freundlichen Grüßen`;
 
-const templateOtherParagraph = template`Sehr geehrte Damen und Herren,
-
-hiermit beantrage ich die Verlängerung meiner Aufenthaltserlaubnis (Kopie liegt bei).
-
-Die Aufenthaltserlaubnis ist nach § <ПАРАГРАФ, НАПРИМЕР 33> AufenthG und nicht nach § 24 AufenthG ausgestellt. Damit fällt diese Aufenthaltserlaubnis nicht in den Geltungsbereich der Verordnung des Bundesinnenministeriums vom 28.11.2024 zur automatischen Verlängerung von Aufenthaltserlaubnissen für ukrainische Geflüchtete. Diese Verordnung gilt ausschließlich für Aufenthaltstitel nach § 24 AufenthG. Alle anderen Aufenthaltserlaubnisse sind regulär zu verlängern. 
-
-Ich bitte Sie daher, die Aufenthaltserlaubnis zu verlängern und einen neuen elektronischen Aufenthaltstitel auszustellen. Weiterhin bitte ich Sie, eine Fiktionsbescheinigung nach § 81 Abs. 4 AufenthG auszustellen, die den Eingang dieses Antrags bestätigt.
-Sollte eine persönliche Vorsprache erforderlich sein, bitte ich Sie, mir den entsprechenden Termin und Ort mitzuteilen. 
-
-Mit freundlichen Grüßen 
-`;
-
 const templateOtherDates = template`Sehr geehrte Damen und Herren,
 
 hiermit beantrage ich die Verlängerung meiner Aufenthaltserlaubnis (Kopie liegt bei).
@@ -358,10 +533,10 @@ Mit freundlichen Grüßen
 `;
 
         const DOCS = {
-            FGV1: '<a href="https://www.recht.bund.de/bgbl/1/2023/334/VO.html" target="_blank">Первый раунд (2024-2025): Изначальная редакция постановления об автопродлении </a>',
-            FGV2: '<a href="https://www.recht.bund.de/bgbl/1/2024/363/VO.html" target="_blank">Второй раунд (2025-2026): Постановление о продлении автопродления</a>',
-            FGVС: '<a href="https://www.gesetze-im-internet.de/ukraineaufenthfgv/UkraineAufenthFGV.pdf" target="_blank">Второй раунд (2025-2026): Обновленная редакция постановления об автопродлении (PDF)</a>',
-            PERMIT: 'Копию вашего ВНЖ.',
+            FGV1: { link: "https://www.recht.bund.de/bgbl/1/2023/334/VO.html", key: "attachment.fgv1" },
+            FGV2: { link: "https://www.recht.bund.de/bgbl/1/2024/363/VO.html", key: "attachment.fgv2"},
+            FGVС: { link: "https://www.gesetze-im-internet.de/ukraineaufenthfgv/UkraineAufenthFGV.pdf", key: "attachment.fgvConsolidated"},
+            PERMIT: { link: null, key: 'attachment.permit' },
         }
 
         function createLetter24(issueDate, expiryDate) {
@@ -400,17 +575,27 @@ Mit freundlichen Grüßen
             document.getElementById("letter").innerHTML = letter;
             E("copyLetterButton").classList.remove("disabled");
 
-            E("docList").querySelector("ul").innerHTML = docList.map((x) => `<li class="ms-3">${x}</li>`).join("\n");
+            updateDocList(docList);
             new bootstrap.Collapse("#docList", {toggle: false}).show();
             new bootstrap.Collapse("#letterContainer", {toggle: false}).show();
         }
 
+        function updateDocList(docs) {
+            E("docList").querySelector("ul").innerHTML = docs.map((d) => {
+                if (d.link == null) {
+                    return `<li class="ms-3">${i18next.t(d.key)}</li>`
+                } else {
+                    return `<li class="ms-3"><a href="${d.link})" target="_blank">${i18next.t(d.key)}</a></li>`
+                }
+            }).join("\n");
+        }
+
         function createLetterOther() {
-            document.getElementById("letter").innerHTML = templateOtherParagraph();
+            document.getElementById("letter").innerHTML = i18next.t("letter.templateOtherParagraph")();
             let docList = [DOCS.PERMIT];
 
             E("copyLetterButton").classList.remove("disabled");
-            E("docList").querySelector("ul").innerHTML = docList.map((x) => `<li class="ms-3">${x}</li>`).join("\n");
+            updateDocList(docList);
 
             new bootstrap.Collapse("#docList", {toggle: false}).show();
             new bootstrap.Collapse("#letterContainer", {toggle: false}).show();
@@ -458,17 +643,13 @@ Mit freundlichen Grüßen
                 updateAlert({
                     type: 'success',
                     iconType: 'check-circle',
-                    message: ["Ваш ВНЖ попадает под автоматическое продление до 04.03.2026. ",
-                    "Для ведомств и работодателей вы можете воспользоваться текстом письма, указанным ниже."].join(""),
+                    message: i18next.t("result.magicExtension"),
                 });                        
             } else {
                 updateAlert({
                     type: 'warning',
                     iconType: 'exclamation-triangle',
-                    message: ["Ваш ВНЖ не попадает под автоматическое продление, так как не действителен ни по состоянию на 01.02.2024, ни по состоянию на 01.02.2025.",
-                                `<strong>Срок его действия истечёт ${dateFns.format(expiryDate, "dd.MM.yyyy")}.</strоng>`,
-                                "Вам необходимо вовремя подать заявление о продлении ВНЖ в вашу миграционную службу.",
-                                "Вы можете воспользоваться образцом заявления, указанным нижe."].join(" "),
+                    message: i18next.t("result.notEligibleByDate", { expiryDate: dateFns.format(expiryDate, "dd.MM.yyyy") }),
                 });                                     
             }
             createLetter24(issueDate, expiryDate);
@@ -491,9 +672,7 @@ Mit freundlichen Grüßen
                     updateAlert({
                         type: 'warning',
                         iconType: 'exclamation-triangle',
-                        message: ["Ваш ВНЖ не попадает под автоматическое продление, так как выдан по другому параграфу. ",
-                                    "Вам необходимо подать заявление о продлении ВНЖ в вашу миграционную службу до окончания срока его действия. ",
-                                    "Вы можете воспользоваться образцом заявления, указанным ниже, подставив туда параграф по которому выдан ваш ВНЖ."].join(""),
+                        message: i18next.t("result.notEligibleParagraph"),
                     });
                     _params.p = 'other';
                     createLetterOther();
@@ -504,9 +683,9 @@ Mit freundlichen Grüßen
                     updateAlert({
                         type: 'success',
                         iconType: 'check-circle',
-                        message: [`Ваш ВНЖ действителен до ${dateFns.format(expiryDate, "dd.MM.yyyy")}.`,
-                                    `По состоянию на ${dateFns.format(new Date(), "dd.MM.yyyy")} этот срок совпадает c максимально возможным сроком действия ВНЖ по § 24 AufenthG, или превышает его.`,
-                                    "У вас нет необходимости в автопродлении."].join(" "),
+                        message: i18next.t("result.sufficientValidity", {
+                            expiryDate: dateFns.format(expiryDate, "dd.MM.yyyy"),
+                            today: dateFns.format(new Date(), "dd.MM.yyyy")}),
                     });
                     clearLetter();
                     return;
@@ -535,9 +714,7 @@ Mit freundlichen Grüßen
                             updateAlert({
                                 type: 'danger',
                                 iconType: 'exclamation-triangle',
-                                message: ["Ваш ВНЖ не попадает под автоматическое продление, так как вы не входите в список категорий граждан третьих стран, претендующих на временную защиту. ",
-                                            "<strong>Ваше правo пребывания в Германии заканчивается 04.03.2025.</strong>",
-                                            ].join(""),
+                                message: i18next.t("result.otherCitizenExpiring"),
                             });
                             clearLetter();
                             return;
@@ -548,7 +725,7 @@ Mit freundlichen Grüßen
                 updateAlert({
                         type: 'info',
                         iconType: 'question-circle',
-                        message: ["Введено недостаточно информации. ", ].join(""),
+                        message: i18next.t("result.insufficientData"),
                 });
                 clearLetter();
             }
@@ -562,6 +739,7 @@ Mit freundlichen Grüßen
         }
 
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/i18next@24.2.0/i18next.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/date-fns@3.6.0/cdn.min.js"></script>
   </body>

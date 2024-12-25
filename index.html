@@ -409,6 +409,10 @@ Mit freundlichen Grüßen
                     }
                 }
             }).then((t) => {
+                const _params = Object.fromEntries(new URL(window.location.href).hash.replace("#", "").split("/").map((x) => x.split('=', 2)));
+                if (_params.lang == 'de' || _params.lang == 'ru') {
+                    i18next.changeLanguage(_params.lang);
+                }
                 updateLanguage();
             })
         });
@@ -732,6 +736,7 @@ Mit freundlichen Grüßen
             }
             core();
 
+            _params.lang = i18next.language;
             const url = new URL(window.location.href);
             const keys = Object.keys(_params).sort();
             url.hash = keys.map((x) => `${x}=${_params[x]}`).join("/");

@@ -9,8 +9,8 @@ jobs:
       - name: scp to netcup
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ env.DEPLOY_HOST }}
-          username: ${{ env.DEPLOY_USER }}
+          host: ${{ vars.DEPLOY_HOST }}
+          username: ${{ vars.DEPLOY_USER }}
           key: ${{ secrets.SSH_RSA_KEY_NETCUP }}
           source: "*.html,*.png,*.svg,*.jpg"
-          target: ${{ env.DEPLOY_PATH }}
+          target: ${{ vars.DEPLOY_PATH }}

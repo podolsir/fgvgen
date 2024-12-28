@@ -6,15 +6,22 @@ on:
 
 jobs:
   build:
-    name: Deploy
+    name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - run: npm ci
+      - run: npm run build --if-present
       - name: scp to netcup
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.SSH_RSA_KEY_NETCUP }}
-          source: "*.html,*.png,*.svg,*.jpg"
+          source: "public/*"
+          strip_components: 1
           target: ${{ secrets.DEPLOY_PATH }}

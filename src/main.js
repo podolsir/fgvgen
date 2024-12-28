@@ -2,6 +2,15 @@ import { installDatePicker } from "./datepicker";
 import { strings_ru, strings_de } from "./resources";
 import { templateSingle, templateDouble, templateOtherDates } from "./resources";
 import { convertHashParams } from "./utils";
+import parseDate from "date-fns/parse";
+import parseISODate from "date-fns/parseISO";
+import formatDate from "date-fns/format";
+import formatDateISO from "date-fns/formatISO";
+import isValidDate from "date-fns/isValid";
+import addDate from "date-fns/add";
+import subtractDate from "date-fns/sub";
+import dateIsAfter from "date-fns/isAfter";
+import dateIsBefore from "date-fns/isBefore";
 
 const E = (x) => document.getElementById(x);
 
@@ -84,14 +93,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        let d = dateFns.parse(dateString, "dd.MM.yyyy", new Date());
-        if (!dateFns.isValid(d)) {
+        let d = parseDate(dateString, "dd.MM.yyyy", new Date());
+        if (!isValidDate(d)) {
             return;
         }
         elem.querySelector("[data-datepicker3-component=day]").value = d.getDate();
         elem.querySelector("[data-datepicker3-component=month]").value = d.getMonth();
         elem.querySelector("[data-datepicker3-component=year]").value = d.getFullYear();
-        elem.setAttribute("data-datepicker3-value",  dateFns.formatISO(d));
+        elem.setAttribute("data-datepicker3-value",  formatDateISO(d));
     }
 
     updateDatePicker(E("issueDate"), _params.i);
@@ -146,8 +155,8 @@ function createLetter24(issueDate, expiryDate) {
     let docList = [];
 
     const params = {
-                issueDate: dateFns.format(issueDate, "dd.MM.yyyy"), 
-                expiryDate: dateFns.format(expiryDate, "dd.MM.yyyy"),
+                issueDate: formatDate(issueDate, "dd.MM.yyyy"), 
+                expiryDate: formatDate(expiryDate, "dd.MM.yyyy"),
                 citizenshipSentence: citizenshipSentence,
             };
 
@@ -215,13 +224,13 @@ const fgv2pivot = new Date(2025, 1, 1);
 // Be careful: issue and expiry dates of German permits are inclusive.
 
 function isEligibleByDateSingle(issueDate, expiryDate) {
-    return (dateFns.isAfter(dateFns.add(expiryDate, {days: 1}), fgv2pivot)
-         && dateFns.isBefore(dateFns.sub(issueDate, {days: 1}), fgv2pivot))
+    return (dateIsAfter(addDate(expiryDate, {days: 1}), fgv2pivot)
+         && dateIsBefore(subtractDate(issueDate, {days: 1}), fgv2pivot))
 }
 
 function isEligibleByDateDouble(issueDate, expiryDate) {
-    return (dateFns.isAfter(dateFns.add(expiryDate, {days: 1}), fgv1pivot)
-         && dateFns.isBefore(dateFns.sub(issueDate, {days: 1}), fgv1pivot))
+    return (dateIsAfter(addDate(expiryDate, {days: 1}), fgv1pivot)
+         && dateIsBefore(subtractDate(issueDate, {days: 1}), fgv1pivot))
 }
 
 function isEligibleByDate(issueDate, expiryDate) {
@@ -239,7 +248,7 @@ function updateByDate(issueDate, expiryDate) {
         updateAlert({
             type: 'warning',
             iconType: 'exclamation-triangle',
-            message: i18next.t("result.notEligibleByDate", { expiryDate: dateFns.format(expiryDate, "dd.MM.yyyy") }),
+            message: i18next.t("result.notEligibleByDate", { expiryDate: formatDate(expiryDate, "dd.MM.yyyy") }),
         });                                     
     }
     createLetter24(issueDate, expiryDate);
@@ -252,11 +261,11 @@ function update() {
 
     const _params = {}; 
     (() => {
-        const issueDate = dateFns.parseISO(E("issueDate").getAttribute("data-datepicker3-value"));
-        const expiryDate = dateFns.parseISO(E("expiryDate").getAttribute("data-datepicker3-value"));
+        const issueDate = parseISODate(E("issueDate").getAttribute("data-datepicker3-value"));
+        const expiryDate = parseISODate(E("expiryDate").getAttribute("data-datepicker3-value"));
 
-        _params.i = isNaN(issueDate) ? "" : dateFns.format(issueDate, "dd.MM.yyyy");
-        _params.e = isNaN(expiryDate) ? "" : dateFns.format(expiryDate, "dd.MM.yyyy");
+        _params.i = isNaN(issueDate) ? "" : formatDate(issueDate, "dd.MM.yyyy");
+        _params.e = isNaN(expiryDate) ? "" : formatDate(expiryDate, "dd.MM.yyyy");
 
         if (E("permitParagraphOther").checked) {
             updateAlert({
@@ -269,13 +278,13 @@ function update() {
             return;
         }
 
-        if (!isNaN(expiryDate) && dateFns.isAfter(expiryDate, new Date(2026, 2, 3))) {
+        if (!isNaN(expiryDate) && dateIsAfter(expiryDate, new Date(2026, 2, 3))) {
             updateAlert({
                 type: 'success',
                 iconType: 'check-circle',
                 message: i18next.t("result.sufficientValidity", {
-                    expiryDate: dateFns.format(expiryDate, "dd.MM.yyyy"),
-                    today: dateFns.format(new Date(), "dd.MM.yyyy")}),
+                    expiryDate: formatDate(expiryDate, "dd.MM.yyyy"),
+                    today: formatDate(new Date(), "dd.MM.yyyy")}),
             });
             clearLetter();
             return;

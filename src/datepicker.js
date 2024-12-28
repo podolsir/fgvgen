@@ -1,3 +1,6 @@
+import formatDateISO from "date-fns/formatISO";
+import isValidDate from "date-fns/isValid";
+
 export function installDatePicker(hostElement) {
     hostElement.innerHTML = `<select class="form-select col" data-datepicker3-component="day">
         <option data-i18n-key="datepicker3.day">День</option>
@@ -65,7 +68,7 @@ export function installDatePicker(hostElement) {
         const d = new Date(hostElement.querySelector("[data-datepicker3-component=year]").value, 
                         hostElement.querySelector("[data-datepicker3-component=month]").value,
                         hostElement.querySelector("[data-datepicker3-component=day]").value);
-        const newValue = dateFns.isValid(d) ? dateFns.formatISO(d) : "";
+        const newValue = isValidDate(d) ? formatDateISO(d) : "";
         if (newValue !== hostElement.getAttribute("data-datepicker3-value")) {
             hostElement.setAttribute("data-datepicker3-value", newValue);
             hostElement.dispatchEvent(new Event("change"));

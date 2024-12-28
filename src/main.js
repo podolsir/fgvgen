@@ -220,6 +220,7 @@ function updateAlert(alertInfo) {
 
 const fgv1pivot = new Date(2024, 1, 1);
 const fgv2pivot = new Date(2025, 1, 1);
+const endOfTemporaryProtection = new Date(2026, 2, 3);
 
 // Be careful: issue and expiry dates of German permits are inclusive.
 
@@ -278,7 +279,7 @@ function update() {
             return;
         }
 
-        if (!isNaN(expiryDate) && dateIsAfter(expiryDate, new Date(2026, 2, 3))) {
+        if (!isNaN(expiryDate) && dateIsAfter(expiryDate, endOfTemporaryProtection)) {
             updateAlert({
                 type: 'success',
                 iconType: 'check-circle',

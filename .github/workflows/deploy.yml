@@ -1,5 +1,9 @@
 name: deploy scp
-on: [push]
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   build:
     name: Deploy

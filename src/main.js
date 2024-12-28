@@ -184,7 +184,7 @@ function updateDocList(docs) {
         if (d.link == null) {
             return `<li class="ms-3">${i18next.t(d.key)}</li>`
         } else {
-            return `<li class="ms-3"><a href="${d.link})" target="_blank">${i18next.t(d.key)}</a></li>`
+            return `<li class="ms-3"><a href="${d.link}" target="_blank">${i18next.t(d.key)}</a></li>`
         }
     }).join("\n");
 }

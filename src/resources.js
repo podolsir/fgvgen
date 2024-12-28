@@ -45,7 +45,7 @@ export const strings_ru = {
         "app-heading": "Информация об автоматическом продлении ВНЖ по §&nbsp;24",
         "app-aboutHeading": "О WOLJA и UAhelp",
         "app-about": 
-            `<p><a href="https://woja-stuttgart.de">WOLJA e.V. - благотворительная общественная организация в Штутгарте.</a> WOLJA занимается различными видами помощи новоприбывшим - от сопровождения непосредственно после эвакуации до помощи в повседневной жизни на более поздних стадиях интеграции.</p>
+            `<p><a href="https://wolja-stuttgart.de">WOLJA e.V. - благотворительная общественная организация в Штутгарте.</a> WOLJA занимается различными видами помощи новоприбывшим - от сопровождения непосредственно после эвакуации до помощи в повседневной жизни на более поздних стадиях интеграции.</p>
              <p>UAhelp - проект <a href="https://digitalvolunteers.de/">общественной организации Digitalista e.V.</a> по сбору и предоставлению информации для тех, кто прибыл в Германию вследствие вторжения РФ в Украину. Центральные площадки проекта - это <a href="https://uahelp.wiki">сайт UAhelp.Wiki</a>, <a href="https://www.youtube.com/@UAhelp">канал на Youtube</a> и <a href="https://www.tiktok.com/@uahelp_germany">канал в Тiktok</a>. </p>`,
         "disclaimer": "Информация на этой странице собрана волонтёрами. Мы не гарантируем её верность. Всю ответственность за все действия, связанные с вашими документами, несёте вы.",
 
@@ -127,7 +127,7 @@ export const strings_de = {
         "app-heading": "Informationen zur automatischen Verlängerung von Aufenthaltstiteln nach §&nbsp;24 AufenthG",
         "app-aboutHeading": "Über WOLJA und UAhelp",
         "app-about": 
-            `<p><a href="https://woja-stuttgart.de">WOLJA e.V. ist ein gemeinnütziger und mildtätiger Verein in Stuttgart.</a> WOLJA leistet auf vielfältige Weise Hilfe für die Neuankommenden - von der Begleitung bei unmittelbar nach der Evakuierung bis zu Hilfen im Alltag in den späteren Phasen der Integration.</p>
+            `<p><a href="https://wolja-stuttgart.de">WOLJA e.V. ist ein gemeinnütziger und mildtätiger Verein in Stuttgart.</a> WOLJA leistet auf vielfältige Weise Hilfe für die Neuankommenden - von der Begleitung bei unmittelbar nach der Evakuierung bis zu Hilfen im Alltag in den späteren Phasen der Integration.</p>
              <p>UAhelp ist ein Projekt von <a href="https://digitalvolunteers.de/">Digitalista e.V.</a> Es befasst sich mit der Sammlung und Bereitstellung von Informationen für die Menschen die in Folge der russischen Invasion in die Ukraine nach Deutschland gekommen sind. Das Projekt umfasst unter anderem die <a href="https://uahelp.wiki">Website UAgelp.Wiki</a>, einen <a href="https://www.youtube.com/@UAhelp">Youtube-Kanal</a> und eine <a href="https://www.tiktok.com/@uahelp_germany">Тiktok-Präsenz</a>. </p>`,
         "disclaimer": "Diese Informationen wurden von ehrenamtlichen Helfern nach bestem Wissen und Gewissen zusammengetragen. Alle Angaben ohne Gewähr.",
         permit: {

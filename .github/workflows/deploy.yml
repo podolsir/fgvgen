@@ -1,0 +1,16 @@
+name: deploy scp
+on: [push]
+jobs:
+  build:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: scp to netcup
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.SSH_RSA_KEY_NETCUP }}
+          source: "*.html,*.png,*.svg,*.jpg"
+          target: ${{ secrets.DEPLOY_PATH }}

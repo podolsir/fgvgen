@@ -265,8 +265,8 @@ function update() {
         const issueDate = parseISODate(E("issueDate").getAttribute("data-datepicker3-value"));
         const expiryDate = parseISODate(E("expiryDate").getAttribute("data-datepicker3-value"));
 
-        _params.i = isNaN(issueDate) ? "" : formatDate(issueDate, "dd.MM.yyyy");
-        _params.e = isNaN(expiryDate) ? "" : formatDate(expiryDate, "dd.MM.yyyy");
+        _params.i = !isValidDate(issueDate) ? "" : formatDate(issueDate, "dd.MM.yyyy");
+        _params.e = !isValidDate(expiryDate) ? "" : formatDate(expiryDate, "dd.MM.yyyy");
 
         if (E("permitParagraphOther").checked) {
             updateAlert({
@@ -279,7 +279,7 @@ function update() {
             return;
         }
 
-        if (!isNaN(expiryDate) && dateIsAfter(expiryDate, endOfTemporaryProtection)) {
+        if (isValidDate(expiryDate) && dateIsAfter(expiryDate, endOfTemporaryProtection)) {
             updateAlert({
                 type: 'success',
                 iconType: 'check-circle',
@@ -305,7 +305,7 @@ function update() {
             _params.p = '24';
             if (E("citizenshipUkraine").checked) {
                 _params.c = 'ua';
-                if (!isNaN(issueDate) && !isNaN(expiryDate)) {
+                if (isValidDate(issueDate) && isValidDate(expiryDate)) {
                     updateByDate(issueDate, expiryDate);
                     return;
                 }
@@ -316,7 +316,7 @@ function update() {
                 _params.rel = E("haveRelatives").checked ? "1" : "";
                 _params.res = E("haveResidence").checked ? "1" : "";
                 if (E("haveRelatives").checked || E("haveResidence").checked) {
-                    if (!isNaN(issueDate) && !isNaN(expiryDate)) {
+                    if (isValidDate(issueDate) && isValidDate(expiryDate)) {
                         updateByDate(issueDate, expiryDate);
                         return;
                     }

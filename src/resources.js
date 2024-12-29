@@ -84,7 +84,8 @@ export const strings_ru = {
                                "Вы можете воспользоваться образцом заявления, указанным нижe.",
             sufficientValidity: ("Ваш ВНЖ действителен до {{expiryDate}}. " +
                 "По состоянию на {{today}} этот срок совпадает c максимально возможным сроком действия ВНЖ по § 24 AufenthG, или превышает его. " +
-                "У вас нет необходимости в автопродлении.") 
+                "У вас нет необходимости в автопродлении."),
+            issueAfterExpiry: "Срок действия ВНЖ не может заканчиваться ранее даты его выдачи. Проверьте верность данных.",
         },
 
         letter: {
@@ -162,7 +163,8 @@ export const strings_de = {
                                "Sie können dafür den unten angezeigten Musterantrag verwenden.",
 
             sufficientValidity: ("Ihr Aufenthaltstitel ist bis {{expiryDate}} gültig. " +
-                "Mit Stand zum {{today}} ist dies die maximale Gültigkeitsdauer eines Aufenthaltstitels nach § 24 AufenthG. Ihr Aufenthaltstitel benötigt keine Sonderregelungen.")
+                "Mit Stand zum {{today}} ist dies die maximale Gültigkeitsdauer eines Aufenthaltstitels nach § 24 AufenthG. Ihr Aufenthaltstitel benötigt keine Sonderregelungen."),
+            issueAfterExpiry: "Das Ausstellungsdatum des Aufenthaltstitels kann nicht nach dem Ablaufdatum liegen. Bitte überprüfen Sie Ihre Eingabe.",
         },
 
         letter: {

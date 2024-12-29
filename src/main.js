@@ -291,6 +291,16 @@ function update() {
             return;
         }
 
+        if (isValidDate(issueDate) && isValidDate(expiryDate) && dateIsAfter(issueDate, expiryDate)) {
+            updateAlert({
+                type: 'info',
+                iconType: 'question-circle',
+                message: i18next.t("result.issueAfterExpiry"),
+            });
+            clearLetter();
+            return;
+        }
+
         if (E("permitParagraph24").checked) {
             _params.p = '24';
             if (E("citizenshipUkraine").checked) {
